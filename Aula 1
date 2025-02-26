@@ -1,0 +1,31 @@
+public class Aula {
+
+    public static void main(String[] args) {
+        System.out.println("Hello world!");
+        System.out.println("goodbye world");
+    }
+}
+
+/////////////////////////////////////////////////
+
+public class string1 {
+    
+    public static void main(String args[]) {
+        String nome = "Luma Werych";
+        String str = "Alunos";
+        
+        System.out.println(nome);
+        System.out.println(str);
+        System.out.println(str + ": " + nome);
+
+
+        String Aluna1 = new String("Luma");
+        String Aluno2 = new String("Werych");
+        System.out.println("Esse é o string 2" + Aluna1);
+        System.out.println(Aluna1 + " " + Aluno2);    
+
+        System.out.println(Aluna1.concat(Aluno2).toUpperCase()+ "." + "***Esta é a concatenação***");
+        System.out.println("Quantidade de caractrere" + Aluna1.length());
+        System.out.println("Quantidade de caractrere" + Aluno2.length());
+    }
+}
