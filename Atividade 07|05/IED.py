@@ -4,6 +4,11 @@ fila_execucao = []      # Fila para executar tarefas ("ordem que mostrará as ta
 
 tarefas_completa = []   # Lista para armazenar tarefas incluindo as informações de prioridade e data
 
+def salvar_tarefas_em_arquivo(): # Cria uma função com o nome "Salvar_tarefas_em_arquivo" através do comando "def" servindo para que o usuario possa salvar as tarefas adicionas em arquivo ".txt"
+    with open("tarefas.txt", "w", encoding="utf-8") as arquivo: # Abre (ou cria, se não tiver) um arquivo "tarefas.txt" no modo de escrita "w" (write) e com codificação UTF-8. O comando "with open(..., w)as" serve para que o programa feche de maneira certa após o uso. o "encoding="utf-8"" serve para que tenha suporte a caracteres especiais. 
+        for tarefa, prioridade, data in tarefas_completa: # Cria uma estrutura de repetição com as tuplas "tarefa, prioridade e data" na várivel "tarefas_completa", Essa estrutura que percorrerá todos os intes da lista.
+            arquivo.write(f"{tarefa};{prioridade};{data}\n") # Escreve uma tarefa em um arquivo ".txt", através do comando "arquivo.write"
+
 def adicionar_tarefa(tarefa): # Cria uma função com o nome "adicionar_tarefa" através do comando "def" servindo para que o usuario possa adicionar tarefas
     prioridade = input("Digite a prioridade da tarefa (alta, média, baixa): ") # Solicita ao usuário para digitar a prioridade da tarefa
     data = input("Digite a data de vencimento (formato: dd/mm/aaaa): ") # Solicita ao usuário para digitar a data de vencimento
@@ -12,6 +17,7 @@ def adicionar_tarefa(tarefa): # Cria uma função com o nome "adicionar_tarefa" 
     tarefas.append(tarefa) # O append serve para adicionar algo a uma variável, ou seja, o que usuário digitar vai ser adicionada à variável "tarefas"
     historico.append(tarefa) # Aqui o que o usuário digitou vai ser guardado na variável "historico", para que possa ser removido ou mostrado depois
     fila_execucao.append(tarefa) # Determina a ordem que as tarefas vão ser mostradas para o usuário
+    salvar_tarefas_em_arquivo() # Chama a função "salvar_tarefas_em_arquivo"
     print(f"Tarefa '{tarefa}' com prioridade '{prioridade}' e data '{data}' adicionada!\n") # Mostra a mensagem "Tarefa (que o usuario digitou) com prioridade (que o usuario digitou) e data (que o usuario digitou)' adicionada!"
 
 def desfazer_ultima_tarefa(): # Cria uma função com o nome "desfazer_ultima_tarefa" através do comando "def" servindo para que o usuário possa desfazer a última tarefa
@@ -19,6 +25,11 @@ def desfazer_ultima_tarefa(): # Cria uma função com o nome "desfazer_ultima_ta
         ultima = historico.pop() # Aqui ele iguala variável "ultima" à variável "historico", com a propriedade de "pop" que vai servir pra remover algum conteúdo que esteja guardado nela 
         tarefas.remove(ultima) # Se a condição for verdadeira, ele removerá o último conteúdo adicionado que estiver na variável "ultima"
         fila_execucao.remove(ultima) # Remove o último conteúdo que estiver guardado na variável "fila_execucao"
+        for t in tarefas_completa: # Vai átras de todos os itens que estiver na variavel "tarefas_completa"
+            if t[0] == ultima: # Pega somente o primeiro item da tupla que é "tarefa" e verifica se é essa que vamos remover
+                tarefas_completa.remove(t) # Retira a tupla correspondente
+                break # "Um para", para evitar remover mais do que a gente deseja
+        salvar_tarefas_em_arquivo() # Chama a função "salvar_tarefas_em_arquivo"
         print(f"Tarefa '{ultima}' desfeita!\n") # Mostra para o usuário "tarefa (última que ele digitou) desfeita!"
     else: # Se ela estiver vazia o conteúdo da variável "ultima" não será igual ao conteúdo da variável "historico" com a propriedade "pop".
         print("Nenhuma tarefa para desfazer.\n") # O programa vai mostrar na tela a mensagem "Nenhuma tarefa para desfazer."
@@ -27,6 +38,11 @@ def atender_tarefa(): # Cria uma função com o nome "atender_tarefa" através d
     if fila_execucao: # Inicia uma condição com a variável "fila_execucao" para analisar se ela está vazia
         feita = fila_execucao.pop(0) # Se elas forem iguais, o programa irá remover a primeira tarefa que foi digitada pelo usuário (através do comando "pop") e guardada na variável "fila_execução"
         tarefas.remove(feita) # Remove essa tarefa no espaço de memória onde estavam guardadas todas as tarefas
+        for t in tarefas_completa: # Vai átras de todos os itens que estiver na variavel "tarefas_completa"
+            if t[0] == feita: # Pega somente o primeiro item da tupla que é "tarefa" e verifica se é essa que vamos remover
+                tarefas_completa.remove(t) # Retira a tupla correspondente
+                break # "Um para", para evitar remover mais do que a gente deseja
+        salvar_tarefas_em_arquivo()
         print(f"Tarefa '{feita}' atendida!\n") # O programa vai mostrar na tela a mensagem "Tarefa (que estiver primeiro na fila) foi atendida"
     else: # Se a variável "fila_execucao" estiver vazia
         print("Nenhuma tarefa para atender.\n") # O programa vai mostrar a mensagem "Nenhuma tarefa para atender."
